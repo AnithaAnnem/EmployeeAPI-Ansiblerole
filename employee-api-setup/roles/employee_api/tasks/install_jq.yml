@@ -1,0 +1,9 @@
+---
+- name: Update apt package index
+  apt:
+    update_cache: yes
+
+- name: Install jq
+  apt:
+    name: jq
+    state: present

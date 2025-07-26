@@ -1,0 +1,5 @@
+---
+# Default values can be overridden with --extra-vars or host/group vars
+app_repo: "https://github.com/OT-MICROSERVICES/employee-api.git"
+app_dir: "/home/ubuntu/employee-api"
+  

@@ -1,0 +1,8 @@
+- name: Provision Employee API stack
+  hosts: all
+  become: true
+
+  roles:
+    - employee_api
+
+

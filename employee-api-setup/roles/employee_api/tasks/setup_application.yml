@@ -1,0 +1,49 @@
+---
+- name: Clone employee-api repo
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_dir }}"
+    version: main
+    force: yes
+
+- name: Generate config.yaml from Jinja template
+  template:
+    src: config.yaml.j2
+    dest: /home/ubuntu/employee-api/config.yaml
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+
+- name: Generate migration.json from Jinja template
+  template:
+    src: migration.json.j2
+    dest: /home/ubuntu/employee-api/migration.json
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+
+- name: Generate main.go from Jinja template
+  template:
+    src: main.go.j2
+    dest: /home/ubuntu/employee-api/main.go
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+
+
+- name: Run migrations
+  make:
+    chdir: "{{ app_dir }}"
+    target: run-migrations
+
+
+
+
+- name: Run Go app in the background
+  shell: |
+    nohup go run main.go > /tmp/employee_api.log 2>&1 &
+  args:
+    chdir: /home/ubuntu/employee-api
+  async: 0
+  poll: 0
+

@@ -1,0 +1,31 @@
+---
+- name: Download migrate binary
+  get_url:
+    url: https://github.com/golang-migrate/migrate/releases/download/v4.15.2/migrate.linux-amd64.tar.gz
+    dest: /tmp/migrate.linux-amd64.tar.gz
+    mode: '0644'
+
+- name: Extract migrate binary
+  unarchive:
+    src: /tmp/migrate.linux-amd64.tar.gz
+    dest: /tmp/
+    remote_src: yes
+
+- name: Move migrate to /usr/local/bin
+  command: mv /tmp/migrate /usr/local/bin/migrate
+  args:
+    creates: /usr/local/bin/migrate
+
+- name: Ensure migrate is executable
+  file:
+    path: /usr/local/bin/migrate
+    mode: '0755'
+    state: file
+
+- name: Verify migrate installation
+  command: migrate -version
+  register: migrate_version
+
+- name: Print migrate version
+  debug:
+    msg: "{{ migrate_version.stdout }}"

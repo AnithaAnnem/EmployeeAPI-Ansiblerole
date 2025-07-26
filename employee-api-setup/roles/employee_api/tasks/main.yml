@@ -1,0 +1,5 @@
+---
+- import_tasks: install_dependencies.yml
+- import_tasks: install_migrate.yml
+- import_tasks: install_jq.yml
+- import_tasks: setup_application.yml

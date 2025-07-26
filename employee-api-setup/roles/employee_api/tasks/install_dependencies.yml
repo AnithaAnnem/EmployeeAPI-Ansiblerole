@@ -1,0 +1,16 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install required packages
+  apt:
+    name:
+      - git
+      - golang
+      - make
+      - lsb-release
+      - curl
+      - gpg
+      - jq
+    state: present
